@@ -18,16 +18,15 @@ class WorkTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @param string $name
-     * @param array $data
-     * @param string $dataName
+     * setUp
      *
      * @return void
      */
-    public function __construct($name = null, array $data = [], $dataName = '')
+    public function setUp(): void
     {
-        parent::__construct($name, $data, $dataName);
         $this->createApplication();
+        $this->problem = new Problem();
+        $this->task = new Task();
     }
 
     /**
@@ -98,7 +97,7 @@ class WorkTest extends TestCase
     public function TODOバリデーション($assert, $expected)
     {
         try {
-            (new Problem())->validateTasks($assert);
+            $this->problem->validateTasks($assert);
         } catch (ValidationException $e) {
             $this->assertSame($expected, $e->error);
         }
@@ -122,7 +121,7 @@ class WorkTest extends TestCase
         DB::beginTransaction();
 
         foreach ($tasks as $task) {
-            (new Task())->updateAllTodo($task);
+            $this->task->updateAllTodo($task);
         }
 
         $tasks = DB::select('
