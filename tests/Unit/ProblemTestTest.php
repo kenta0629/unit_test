@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use PHPUnit\Framework\TestCase;
 use Tests\CreatesApplication;
 
-class WorkTest extends TestCase
+class ProblemTest extends TestCase
 {
     use CreatesApplication;
     use RefreshDatabase;
