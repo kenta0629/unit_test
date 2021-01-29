@@ -3,12 +3,11 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Model\Problem;
-use App\Model\Task;
 use Faker\Generator as Faker;
 
 $factory->define(Problem::class, function (Faker $faker) {
     return [
-        'task_id' => factory(Task::class),
+        'task_id' => $faker->numberBetween(1, 20),
         'branch_name' => $faker->isbn13(),
         'todo' => $faker->randomElement([
             'どこで手を抜くかを考える',

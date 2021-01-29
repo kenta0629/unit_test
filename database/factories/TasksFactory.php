@@ -3,12 +3,11 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Model\Task;
-use App\Model\User;
 use Faker\Generator as Faker;
 
 $factory->define(Task::class, function (Faker $faker) {
     return [
-        'user_id' => factory(User::class),
+        'user_id' => $faker->numberBetween(1, 9),
         'name' => $faker->randomElement([
             '洗濯',
             'トイレ掃除',
@@ -32,7 +31,7 @@ $factory->define(Task::class, function (Faker $faker) {
             'KPT'
         ]),
         'progress' => 0,
-        'num_remaining' => $faker->randomDigit(),
+        'num_remaining' => 1,
         'num_finished' => 0,
     ];
 });
