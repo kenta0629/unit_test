@@ -34,7 +34,7 @@ class WorkTest extends TestCase
     *
     * @return array
     */
-    public function validationProvider()
+    public function validationProvider(): array
     {
         $now = Carbon::now();
 
@@ -92,9 +92,11 @@ class WorkTest extends TestCase
      *
      * @test
      * @dataProvider validationProvider
+     * @param array $assert テストパターン
+     * @param array $expected 期待値
      * @return void
      */
-    public function TODOバリデーション($assert, $expected)
+    public function TODOバリデーション(array $assert, array $expected): void
     {
         try {
             $this->problem->validateTasks($assert);
@@ -108,7 +110,7 @@ class WorkTest extends TestCase
      * @test
      * @return void
      */
-    public function タスクごとの全TODO完了処理()
+    public function タスクごとの全TODO完了処理(): void
     {
         $tasks = DB::select('
             select T.id, T.name, T.progress, T.num_finished, count(P.id) as cnt
