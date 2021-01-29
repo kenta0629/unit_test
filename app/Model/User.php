@@ -9,4 +9,14 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
+
+    /**
+     * hasMany
+     *
+     * @return void
+     */
+    public function tasks()
+    {
+        return $this->hasMany('App\Model\Task');
+    }
 }
