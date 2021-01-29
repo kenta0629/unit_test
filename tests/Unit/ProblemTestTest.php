@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Exceptions\ValidationException;
 use App\Model\Problem;
-use App\Model\Task;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,7 +25,6 @@ class ProblemTest extends TestCase
     {
         $this->createApplication();
         $this->problem = new Problem();
-        $this->task = new Task();
     }
 
     /**
@@ -89,6 +87,7 @@ class ProblemTest extends TestCase
     }
 
     /**
+     * TODOを新規で作成した際のバリデーションテスト
      *
      * @test
      * @dataProvider validationProvider
@@ -106,6 +105,7 @@ class ProblemTest extends TestCase
     }
 
     /**
+     * タスクごとのTODOをそれぞれ全部完了の状態にするテスト
      *
      * @test
      * @return void
@@ -123,7 +123,7 @@ class ProblemTest extends TestCase
         DB::beginTransaction();
 
         foreach ($tasks as $task) {
-            $this->task->updateAllTodo($task);
+            $this->problem->updateAllTodo($task);
         }
 
         $tasks = DB::select('
@@ -135,6 +135,30 @@ class ProblemTest extends TestCase
         foreach ($tasks as $task) {
             $this->assertSame('100.00', $task->progress);
         }
+
+        DB::rollBack();
+    }
+
+    /**
+     *「どこで手を抜くかを考える」のTODOを
+     *「どうやって手を抜くか」に変更できたかのテスト
+     *
+     * @test
+     * @return void
+     */
+    public function TODOの内容変更(): void
+    {
+        DB::beginTransaction();
+
+        $this->problem->updateTodoDetail('どうやって手を抜くか');
+
+        $todo_lists = DB::select('
+            select count(*) as cnt
+            from problems
+            where todo = :todo
+        ', ['todo' => 'どこで手を抜くかを考える']);
+
+        $this->assertSame(0, $todo_lists[0]->cnt);
 
         DB::rollBack();
     }
